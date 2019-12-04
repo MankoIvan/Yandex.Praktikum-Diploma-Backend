@@ -26,7 +26,6 @@ module.exports.deleteArticle = (req, res, next) => {
   const { articleId } = req.params;
   Article.findById(articleId)
     .then((article) => {
-      console.log(article);
       if (article) {
         if (article.owner.toString() === req.user._id) {
           Article.findByIdAndRemove(articleId)

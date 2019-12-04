@@ -1,5 +1,8 @@
 const jwt = require("jsonwebtoken");
 
+// необходимо подключить 401 ошибку
+// const UnauthorizedError = require("../errors/unauthorized-error");
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const handleAuthError = (res) => {
