@@ -5,7 +5,10 @@ const { errors, celebrate, Joi } = require("celebrate");
 
 const { PORT = 3000 } = process.env;
 
+const usersRouter = require("./routes/users");
+const articleRouter = require("./routes/articles");
 const { createUser, login } = require("./controllers/users");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,6 +20,10 @@ mongoose.connect("mongodb://localhost:27017/newsapi-db", {
   useFindAndModify: false,
 });
 
+app.use(requestLogger);
+
+app.use("/", usersRouter);
+app.use("/", articleRouter);
 app.use("/signin", celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
@@ -30,6 +37,14 @@ app.use("/signup", celebrate({
     password: Joi.string().required().min(8),
   }),
 }), createUser);
+app.get("*", (req, res) => {
+  res.status(404);
+  res.send({ message: "Запрашиваемый ресурс не найден" });
+});
+
+app.use(errorLogger);
+
+app.use(errors());
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;

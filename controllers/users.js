@@ -2,17 +2,28 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
+const NotFoundError = require("../errors/not-found-error");
+const ConflictError = require("../errors/conflict-error");
+
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.createUser = (req, res, next) => {
   const { name, email, password } = req.body;
-  bcrypt.hash(password, 10)
-    .then((hash) => User.create({ name, email, password: hash }))
-    .then((user) => {
-      res.status(201).send({
-        _id: user._id,
-        email: user.email,
-      });
+  User.findOne({ email })
+    .then((e) => {
+      if (e) {
+        throw new ConflictError("Пользователь с этим e-mail уже существует");
+      } else {
+        bcrypt.hash(password, 10)
+          .then((hash) => User.create({ name, email, password: hash }))
+          .then((user) => {
+            res.status(201).send({
+              _id: user._id,
+              email: user.email,
+            });
+          })
+          .catch(next);
+      }
     })
     .catch(next);
 };
@@ -29,6 +40,19 @@ module.exports.login = (req, res, next) => {
         sameSite: true,
       })
         .end();
+    })
+    .catch(next);
+};
+
+module.exports.getUser = (req, res, next) => {
+  const id = req.user._id;
+  User.findById(id)
+    .then((user) => {
+      if (user) {
+        res.send(user);
+      } else {
+        throw new NotFoundError(`Нет пользователя с таким id: ${id}`);
+      }
     })
     .catch(next);
 };
