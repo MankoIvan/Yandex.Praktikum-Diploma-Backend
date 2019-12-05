@@ -13,5 +13,4 @@ node_modules
 .DS_Store
 .idea
 
-# .env
-# env файл будет удален после проверки
+.env

@@ -4,7 +4,7 @@
 
 NewsExplorer - сервис, в котором можно найти новости по запросу и сохранить в личном кабинете.
 
-http://manko-newsexplorer.site
+http://api.manko-newsexplorer.site
 http://84.201.159.127
 
 ## Использованные технологии и пакеты:
