@@ -49,7 +49,7 @@ module.exports.getUser = (req, res, next) => {
   User.findById(id)
     .then((user) => {
       if (user) {
-        res.send(user);
+        res.send({ name: user.name, email: user.email });
       } else {
         throw new NotFoundError(`Нет пользователя с таким id: ${id}`);
       }

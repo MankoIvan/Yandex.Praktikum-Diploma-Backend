@@ -11,6 +11,7 @@ const usersRouter = require("./routes/users");
 const articleRouter = require("./routes/articles");
 const { createUser, login } = require("./controllers/users");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
+const NotFoundError = require("./errors/not-found-error");
 
 const app = express();
 app.use(bodyParser.json());
@@ -39,9 +40,8 @@ app.use("/signup", celebrate({
     password: Joi.string().required().min(8),
   }),
 }), createUser);
-app.get("*", (req, res) => {
-  res.status(404);
-  res.send({ message: "Запрашиваемый ресурс не найден" });
+app.use(() => {
+  throw new NotFoundError("Запрашиваемый ресурс не найден");
 });
 
 app.use(errorLogger);
