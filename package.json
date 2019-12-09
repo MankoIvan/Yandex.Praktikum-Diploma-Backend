@@ -1,0 +1,39 @@
+{
+  "name": "Yandex.Praktikum-Diploma-Backend",
+  "version": "1.0.0",
+  "description": "Final project for Yandex.Praktikum web-developer course",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MankoIvan/Yandex.Praktikum-Diploma-Backend.git"
+  },
+  "keywords": [],
+  "author": "Manko Ivan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MankoIvan/Yandex.Praktikum-Diploma-Backend/issues"
+  },
+  "homepage": "https://github.com/MankoIvan/Yandex.Praktikum-Diploma-Backend#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "celebrate": "^10.1.0",
+    "dotenv": "^8.2.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "express": "^4.17.1",
+    "express-winston": "^4.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.13",
+    "validator": "^12.1.0",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "nodemon": "^2.0.1"
+  }
+}
