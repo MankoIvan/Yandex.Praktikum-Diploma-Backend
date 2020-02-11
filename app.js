@@ -15,6 +15,14 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 const NotFoundError = require("./errors/not-found-error");
 
 const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:8081",
+  optionsSuccessStatus: 200,
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -23,8 +31,6 @@ mongoose.connect("mongodb://localhost:27017/newsapi-db", {
   useCreateIndex: true,
   useFindAndModify: false,
 });
-
-app.use(cors());
 app.use(requestLogger);
 
 app.use("/", usersRouter);
