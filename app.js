@@ -7,6 +7,7 @@ const { errors, celebrate, Joi } = require("celebrate");
 
 const { PORT = 3000 } = process.env;
 
+const cors = require("cors")
 const usersRouter = require("./routes/users");
 const articleRouter = require("./routes/articles");
 const { createUser, login } = require("./controllers/users");
@@ -23,6 +24,7 @@ mongoose.connect("mongodb://localhost:27017/newsapi-db", {
   useFindAndModify: false,
 });
 
+app.use(cors());
 app.use(requestLogger);
 
 app.use("/", usersRouter);
