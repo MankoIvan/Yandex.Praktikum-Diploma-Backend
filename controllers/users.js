@@ -46,6 +46,14 @@ module.exports.login = (req, res, next) => {
     .catch(next);
 };
 
+module.exports.logout = (req, res, next) => {
+  res.status(200).clearCookie("jwt", {
+    httpOnly: true,
+    sameSite: true,
+  })
+    .end();
+};
+
 module.exports.getUser = (req, res, next) => {
   const id = req.user._id;
   User.findById(id)
