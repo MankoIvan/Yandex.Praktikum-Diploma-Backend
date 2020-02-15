@@ -16,7 +16,7 @@ const NotFoundError = require("./errors/not-found-error");
 
 const app = express();
 
-app.use(function (req, res, next) {
+/* app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.header('access-Control-Allow-Origin', '*');
@@ -28,7 +28,21 @@ const corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 200,
 };
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); */
+const allowedDomains = ["http://newsexplorer-manko.site"];
+
+app.use((req, res, next) => {
+  if (req.headers.origin && allowedDomains.includes(req.headers.origin)) {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+  } else {
+    res.header('Access-Control-Allow-Origin', 'http://newsexplorer-manko.site/');
+  }
+
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, Authorization');
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
