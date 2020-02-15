@@ -10,14 +10,14 @@ const { PORT = 3000 } = process.env;
 const cors = require("cors")
 const usersRouter = require("./routes/users");
 const articleRouter = require("./routes/articles");
-const { createUser, login } = require("./controllers/users");
+const { createUser, login, logout } = require("./controllers/users");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const NotFoundError = require("./errors/not-found-error");
 
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "http://newsexplorer-manko.site/",
   optionsSuccessStatus: 200,
   credentials: true,
 };
@@ -48,6 +48,7 @@ app.use("/signup", celebrate({
     password: Joi.string().required().min(8),
   }),
 }), createUser);
+app.use("/logout", logout);
 app.use(() => {
   throw new NotFoundError("Запрашиваемый ресурс не найден");
 });

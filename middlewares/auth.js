@@ -4,17 +4,18 @@ const UnauthorizedError = require("../errors/unauthorized-error");
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-const extractBearerToken = (header) => header.replace("Bearer ", "");
+const extractToken = (header) => header.replace("jwt=", "");
 
 // eslint-disable-next-line consistent-return
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
+  const { cookie } = req.headers;
+  console.log(cookie);
 
-  if (!authorization || !authorization.startsWith("Bearer ")) {
+  if (!cookie || !cookie.startsWith("jwt=")) {
     throw new UnauthorizedError("Необходима авторизация");
   }
 
-  const token = extractBearerToken(authorization);
+  const token = extractToken(cookie);
   let payload;
 
   try {
