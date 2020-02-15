@@ -17,7 +17,7 @@ const NotFoundError = require("./errors/not-found-error");
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:8081",
+  origin: "http://newsexplorer-manko.site/",
   optionsSuccessStatus: 200,
   credentials: true,
 };
