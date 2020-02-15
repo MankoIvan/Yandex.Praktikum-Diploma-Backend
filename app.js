@@ -16,20 +16,7 @@ const NotFoundError = require("./errors/not-found-error");
 
 const app = express();
 
-/* app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.header('access-Control-Allow-Origin', '*');
-  next();
-});
-
-const corsOptions = {
-  origin: "http://newsexplorer-manko.site",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  optionsSuccessStatus: 200,
-};
-app.use(cors(corsOptions)); */
-const allowedDomains = ["http://newsexplorer-manko.site"];
+const allowedDomains = ["http://newsexplorer-manko.site", "http://localhost:8081"];
 
 app.use((req, res, next) => {
   if (req.headers.origin && allowedDomains.includes(req.headers.origin)) {
