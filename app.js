@@ -18,8 +18,8 @@ const app = express();
 
 const corsOptions = {
   origin: "http://newsexplorer-manko.site/",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 200,
-  credentials: true,
 };
 app.use(cors(corsOptions));
 
