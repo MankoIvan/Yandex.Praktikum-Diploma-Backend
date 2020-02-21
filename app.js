@@ -1,13 +1,16 @@
 require("dotenv").config();
 
 const express = require("express");
+const rateLimit = require("express-rate-limit");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { errors, celebrate, Joi } = require("celebrate");
 
 const { PORT = 3000 } = process.env;
 
-const cors = require("cors")
+const cors = require("cors");
+const helmet = require("helmet");
+
 const usersRouter = require("./routes/users");
 const articleRouter = require("./routes/articles");
 const { createUser, login, logout } = require("./controllers/users");
@@ -15,14 +18,21 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 const NotFoundError = require("./errors/not-found-error");
 
 const app = express();
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
 
 const corsOptions = {
   origin: "http://newsexplorer-manko.site",
+  /* origin: "http://localhost:8081", */
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 200,
   credentials: true,
 };
 app.use(cors(corsOptions));
+app.use(limiter);
+app.use(helmet());
 
 
 app.use(bodyParser.json());
